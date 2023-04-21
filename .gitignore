@@ -5,6 +5,8 @@
 #
 # Normal rules (sorted alphabetically)
 #
+out/
+out_android/
 .*
 !.checkpatch.conf
 *.a
