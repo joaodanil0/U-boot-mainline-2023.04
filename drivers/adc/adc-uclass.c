@@ -194,6 +194,40 @@ int adc_channels_data(struct udevice *dev, unsigned int channel_mask,
 	return ret;
 }
 
+#ifdef CONFIG_SARADC_MESON
+int adc_channel_single_shot_mode(const char *name, unsigned int mode,
+			int channel, unsigned int *data)
+{
+	struct udevice *dev;
+	int ret;
+
+	ret = uclass_get_device_by_name(UCLASS_ADC, name, &dev);
+	if (ret)
+		return ret;
+
+	ret = adc_set_mode(dev, channel, mode);
+	if (ret)
+		return ret;
+
+	ret = adc_start_channel(dev, channel);
+	if (ret)
+		return ret;
+
+	ret = adc_channel_data(dev, channel, data);
+	if (ret)
+		return ret;
+
+	return 0;
+}
+
+int adc_channel_single_shot(const char *name, int channel, unsigned int *data)
+{
+	return adc_channel_single_shot_mode(name, ADC_MODE_AVERAGE,
+				channel, data);
+}
+
+#else
+
 int adc_channel_single_shot(const char *name, int channel, unsigned int *data)
 {
 	struct udevice *dev;
@@ -213,6 +247,7 @@ int adc_channel_single_shot(const char *name, int channel, unsigned int *data)
 
 	return 0;
 }
+#endif
 
 static int _adc_channels_single_shot(struct udevice *dev,
 				     unsigned int channel_mask,
