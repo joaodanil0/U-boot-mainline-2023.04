@@ -85,7 +85,7 @@
 
 #ifndef CFG_EXTRA_ENV_SETTINGS
 #define CFG_EXTRA_ENV_SETTINGS \
-	"serverip=192.168.0.3\0" \
+	"serverip=192.168.0.203\0" \
     "ipaddr=192.168.0.104\0" \
     "env_loadaddr=0x20000000\0" \
     "distro_bootcmd=" \
